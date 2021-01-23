@@ -6,6 +6,7 @@ const sassMiddleware = require('node-sass-middleware');
 const serveFavicon = require('serve-favicon');
 
 const indexRouter = require('./routes/index');
+const authenticationRouter = require('./routes/authentication');
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(express.static(join(__dirname, 'public')));
 app.use(serveFavicon(join(__dirname, 'public/images', 'favicon.ico')));
 
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   sassMiddleware({
     src: join(__dirname, 'public'),
@@ -29,6 +30,7 @@ app.use(
 );
 
 app.use('/', indexRouter);
+app.use('/authentication', authenticationRouter);
 
 // Catch missing routes and forward to error handler
 app.use((req, res, next) => {
